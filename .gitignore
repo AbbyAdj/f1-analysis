@@ -1,0 +1,33 @@
+# dbt build artifacts
+target/
+dbt_packages/
+
+# Credentials (NEVER commit)
+profiles.yml
+
+# Environment variables
+.env
+.envrc
+
+# IDE
+.DS_Store
+*.swp
+*.swo
+*~
+.vscode/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+dbt_internal_packages/
+
+venv/
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+
+
