@@ -15,3 +15,15 @@ variable "force_destroy" {
     type        = bool
     default     = true
 }
+
+variable "snowflake_iam_user_arn" {
+    description = "The ARN of the Snowflake IAM user"
+    type        = string
+    default = ""
+}
+
+variable "snowflake_external_id" {
+    description = "The external ID for the Snowflake IAM role"
+    type        = string
+    default     = ""
+}
