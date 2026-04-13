@@ -32,11 +32,11 @@ venv/
 
 # snowflake
 config.toml
+snowflake/logs/
 
 # dbt
 .user.yml
 dbt/logs/
-*.log
 
 random.ipynb
 random.txt
