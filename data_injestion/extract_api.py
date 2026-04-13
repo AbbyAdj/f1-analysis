@@ -117,16 +117,16 @@ def create_cache(year:int):
     race_results = get_race_results(year)
 
     if races:
-        create_json_cache(races, "races", year)
+        create_json_cache(races, "races")
 
     if drivers:
-        create_json_cache(drivers, "drivers", year)
+        create_json_cache(drivers, "drivers")
 
     if constructors:
-        create_json_cache(constructors, "constructors", year)
+        create_json_cache(constructors, "constructors")
 
     if race_results:
-        create_json_cache(race_results, "race_results", year)
+        create_json_cache(race_results, "race_results")
 
 
 if __name__ == "__main__":
