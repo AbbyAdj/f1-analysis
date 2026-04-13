@@ -30,4 +30,12 @@ venv/
 *.tfstate.*
 *.tfvars
 
+# snowflake
+config.toml
 
+# dbt
+.user.yml
+
+random.ipynb
+random.txt
+*.log
