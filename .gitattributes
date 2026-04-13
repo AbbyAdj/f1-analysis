@@ -1,4 +1,0 @@
-# GitHub Linguist overrides
-# Exclude generated/log SQL from stats
-dbt/logs/**/*.sql linguist-generated
-dbt/target/**/*.sql linguist-generated
