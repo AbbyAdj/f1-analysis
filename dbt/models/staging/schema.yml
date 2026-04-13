@@ -1,0 +1,105 @@
+version: 2
+
+models:
+  - name: stg_races
+    description: "Staging: cleaned races table. One row per race in the 2025 season."
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - season
+              - season_round
+    columns:
+      - name: circuit_id
+        description: "Unique circuit identifier (primary key)"
+        data_tests:
+          - not_null
+      - name: season
+        description: "Season year"
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [2025]
+      - name: season_round
+        description: "Race round number in the season"
+        data_tests:
+          - not_null
+
+  - name: stg_drivers
+    description: "Staging: cleaned drivers table. One row per driver."
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - driver_id
+    columns:
+      - name: driver_id
+        description: "Unique driver identifier (primary key)"
+        data_tests:
+          - not_null
+      - name: first_name
+        description: "Driver's first name"
+        data_tests:
+          - not_null
+      - name: last_name
+        description: "Driver's last name"
+        data_tests:
+          - not_null
+
+  - name: stg_constructors
+    description: "Staging: cleaned constructors table. One row per team."
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - constructor_id
+    columns:
+      - name: constructor_id
+        description: "Unique constructor identifier (primary key)"
+        data_tests:
+          - not_null
+      - name: constructor_name
+        description: "Team name"
+        data_tests:
+          - not_null
+      - name: nationality
+        description: "Team's nationality"
+        data_tests:
+          - not_null
+
+  - name: stg_race_results
+    description: "Staging: cleaned results table. One row per driver per race."
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - season
+              - season_round
+              - driver_id
+
+    columns:
+      - name: season
+        description: "Year of the race"
+        data_tests:
+          - not_null
+      - name: season_round
+        description: "Race number in the season (1-24)"
+        data_tests:
+          - not_null
+      - name: driver_id
+        description: "Foreign key to drivers"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_drivers')
+                field: driver_id  
+      - name: constructor_id
+        description: "Foreign key to constructors"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_constructors')
+                field: constructor_id

@@ -1,0 +1,10 @@
+
+SELECT 
+  DRIVER_ID,
+  DRIVER_NUMBER,
+  DRIVER_CODE,
+  FIRST_NAME,
+  LAST_NAME,
+  DATE_OF_BIRTH,
+  NATIONALITY
+FROM {{ ref('stg_drivers') }}

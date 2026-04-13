@@ -1,0 +1,84 @@
+version: 2
+
+models:
+  - name: int_race_results_enriched
+    description: "Intermediate: race results enriched with driver and constructor names"
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - season
+              - season_round
+              - driver_id
+    columns:
+      - name: season
+        description: "Season year"
+        data_tests:
+          - not_null
+      - name: season_round
+        description: "Race round number in the season"
+        data_tests: 
+          - not_null
+      - name: driver_id
+        description: "Unique driver identifier (foreign key to stg_drivers)"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_drivers')
+                field: driver_id
+      - name: constructor_id
+        description: "Unique constructor identifier (foreign key to stg_constructors)"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_constructors')
+                field: constructor_id
+      - name: circuit_id
+        description: "Unique circuit identifier (foreign key to stg_races)"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_races')
+                field: circuit_id
+      - name: positions_gained
+        description: "Positive if the driver gained positions, negative otherwise"
+      - name: is_winner
+        description: "True if the driver  won the race, false otherwise"  
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [true, false] 
+      - name: is_podium
+        description: "True if the driver finished in the top 3, false otherwise"  
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [true, false]
+      - name: is_dnf
+        description: "True if the driver did not finish the race, false otherwise"  
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [true, false] 
+      - name: is_points_finish
+        description: "True if the driver finished in the points, false otherwise"  
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [true, false]
+      - name: race_points
+        description: "Number of points scored by the driver in the race"
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:  
+                min_value: 0
+                max_value: 25
+        

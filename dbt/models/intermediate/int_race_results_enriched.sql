@@ -1,0 +1,88 @@
+
+WITH 
+  race_results AS (
+    SELECT 
+      srr.SEASON,
+      srr.SEASON_ROUND,
+      srr.DRIVER_ID,
+      srr.CONSTRUCTOR_ID,
+      sra.CIRCUIT_ID,
+      srr.DRIVER_CODE,
+      srr.POSITION_TEXT,
+      srr.RACE_STATUS,
+      srr.FINISHING_POSITION,
+      srr.STARTING_POSITION,
+      srr.RACE_POINTS,
+      srr.LAPS_COMPLETED,
+      srr.FASTEST_LAP,
+      srr.FASTEST_LAP_TIME,
+      srr.FASTEST_LAP_RANK,
+      sd.FIRST_NAME || ' ' || sd.LAST_NAME AS DRIVER_FULL_NAME,
+      sd.NATIONALITY AS DRIVER_NATIONALITY,
+      sc.CONSTRUCTOR_NAME,
+      sc.NATIONALITY AS CONSTRUCTOR_NATIONALITY,
+      sra.RACE_NAME,
+      sra.RACE_DATE,
+      sra.RACE_TIMESTAMP,
+      sra.CIRCUIT_NAME,
+      sra.CIRCUIT_LOCALITY,
+      sra.CIRCUIT_COUNTRY
+    FROM 
+      {{ ref('stg_race_results') }} srr
+    JOIN {{ ref('stg_drivers') }} sd 
+      ON srr.driver_id = sd.driver_id
+    JOIN {{ ref('stg_constructors') }} sc
+      ON srr.constructor_id = sc.constructor_id
+    JOIN {{ ref('stg_races') }} sra
+      ON srr.season = sra.season
+      AND srr.season_round = sra.season_round
+  )
+SELECT 
+  SEASON,
+  SEASON_ROUND,
+  DRIVER_ID,
+  CONSTRUCTOR_ID,
+  CIRCUIT_ID,
+  DRIVER_CODE,
+  POSITION_TEXT,
+  RACE_STATUS,
+  CASE
+    WHEN FINISHING_POSITION = 1
+      THEN TRUE
+    ELSE FALSE 
+  END AS IS_WINNER,
+  CASE
+    WHEN FINISHING_POSITION BETWEEN 1 AND 3
+      THEN TRUE
+    ELSE FALSE
+  END AS IS_PODIUM,
+  CASE
+    WHEN RACE_STATUS NOT IN ('Finished', 'Lapped')
+      THEN TRUE
+    ELSE FALSE
+  END AS IS_DNF,
+  CASE 
+    WHEN FINISHING_POSITION BETWEEN 1 AND 10
+      THEN TRUE
+    ELSE FALSE
+  END AS IS_POINTS_FINISH,
+  FINISHING_POSITION,
+  STARTING_POSITION,
+  STARTING_POSITION - FINISHING_POSITION AS POSITIONS_GAINED,
+  RACE_POINTS,
+  LAPS_COMPLETED,
+  FASTEST_LAP,
+  FASTEST_LAP_TIME,
+  FASTEST_LAP_RANK,
+  DRIVER_FULL_NAME,
+  DRIVER_NATIONALITY,
+  CONSTRUCTOR_NAME,
+  CONSTRUCTOR_NATIONALITY,
+  RACE_NAME,
+  RACE_DATE,
+  RACE_TIMESTAMP,
+  CIRCUIT_NAME,
+  CIRCUIT_LOCALITY,
+  CIRCUIT_COUNTRY
+FROM 
+  race_results
