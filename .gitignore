@@ -35,7 +35,8 @@ config.toml
 
 # dbt
 .user.yml
+query_log.sql
+*.log
 
 random.ipynb
 random.txt
-*.log
