@@ -8,7 +8,7 @@ USE DATABASE f1_db;
 USE SCHEMA raw;
 
 -- Create storage integration with the IAM role ARN from Terraform
-CREATE STORAGE INTEGRATION f1_s3_integration
+CREATE STORAGE INTEGRATION IF NOT EXISTS f1_s3_integration
   TYPE = EXTERNAL_STAGE
   STORAGE_PROVIDER = 'S3'
   ENABLED = TRUE
