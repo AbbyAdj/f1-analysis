@@ -1,0 +1,6 @@
+# GitHub Linguist overrides
+scripts/*.sh linguist-vendored
+
+dbt/**/*.sql linguist-detectable
+snowflake/*.sql linguist-detectable
+terraform/*.tf linguist-detectable
