@@ -1,0 +1,16 @@
+default_connection_name = ""
+
+[connections]
+[connections.myconnection]
+account = ""
+user = ""
+password = ""
+
+[connections.testingconnection]
+account = ""
+user = ""
+password = ""
+
+[cli.logs]
+save_logs = true
+level = "info"
