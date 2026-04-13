@@ -1,6 +1,4 @@
 # GitHub Linguist overrides
-scripts/*.sh linguist-vendored
-
-dbt/**/*.sql linguist-detectable
-snowflake/*.sql linguist-detectable
-terraform/*.tf linguist-detectable
+# Exclude generated/log SQL from stats
+dbt/logs/**/*.sql linguist-generated
+dbt/target/**/*.sql linguist-generated
