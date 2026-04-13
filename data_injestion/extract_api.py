@@ -2,9 +2,10 @@ import requests
 from pprint import pprint
 from time import sleep
 from utils.utils import create_json_cache
+import os
 
 BASE_API = "https://api.jolpi.ca/ergast/f1"
-
+year = os.getenv("YEAR", 2025)
 # RACES, DRIVERS, CONSTRUCTORS, RESULTS FOR 2025
 
 def get_races(year: int):
