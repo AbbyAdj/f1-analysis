@@ -9,7 +9,7 @@ load_dotenv(override=True)
 RAW_BUCKET = os.getenv("RAW_S3_BUCKET")
 CLEANED_CSV_DIR = Path(__file__).parent / "cleaned_csv"
 
-s3_client = boto3.client("s3", region=os.getenv("AWS_REGION", "eu-west-2"))
+s3_client = boto3.client("s3", region_name=os.getenv("AWS_REGION", "eu-west-2"))
 
 if not CLEANED_CSV_DIR.exists():
     raise Exception("Please ensure that there are files to upload and their directory exists")
