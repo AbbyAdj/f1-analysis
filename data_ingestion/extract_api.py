@@ -3,16 +3,18 @@ from pprint import pprint
 from time import sleep
 from utils.utils import create_json_cache
 import os
+from datetime import datetime
 
 BASE_API = "https://api.jolpi.ca/ergast/f1"
-year = os.getenv("YEAR", 2025)
+CURRENT_YEAR = datetime.now().year
+year = int(os.getenv("YEAR", 2025))
 # RACES, DRIVERS, CONSTRUCTORS, RESULTS FOR 2025
 
 def get_races(year: int):
 
     url = f"{BASE_API}/{year}/races"
 
-    if year < 1950 or year > 2026:
+    if year < 1950 or year > CURRENT_YEAR:
         raise Exception("You need to specify a year between 1950 and the current year")
     
     result = []
@@ -38,7 +40,7 @@ def get_drivers(year:int):
     url = f"{BASE_API}/{year}/drivers"
 
 
-    if year < 1950 or year > 2026:
+    if year < 1950 or year > CURRENT_YEAR:
         raise Exception("You need to specify a year between 1950 and the current year")
     
     result = []
@@ -63,7 +65,7 @@ def get_drivers(year:int):
 def get_constructors(year:int):
     url = f"{BASE_API}/{year}/constructors"
 
-    if year < 1950 or year > 2026:
+    if year < 1950 or year > CURRENT_YEAR:
         raise Exception("You need to specify a year between 1950 and the current year")
     
     result = []
@@ -88,7 +90,7 @@ def get_constructors(year:int):
 def get_race_results(year: int):
     url = f"{BASE_API}/{year}/results"
 
-    if year < 1950 or year > 2026:
+    if year < 1950 or year > CURRENT_YEAR:
         raise Exception("You need to specify a year between 1950 and the current year")
     
     result = []
@@ -131,4 +133,4 @@ def create_cache(year:int):
 
 
 if __name__ == "__main__":
-    create_cache(2025)
+    create_cache(year)
